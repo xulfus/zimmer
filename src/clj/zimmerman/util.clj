@@ -5,9 +5,6 @@
   (when path
     (-> (Thread/currentThread) .getContextClassLoader (.getResourceAsStream path))))
 
-(defn slurpr [path]
-  (slurp (as-resource path)))
-
 (def config 
   (if-let [res (as-resource "config.edn")] 
     (edn/read-string (slurp res))
