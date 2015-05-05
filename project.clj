@@ -23,6 +23,9 @@
                  [metosin/compojure-api "0.20.1"]
                  [clj-http "1.1.1"]
                  [com.github.kyleburton/clj-xpath "1.4.4"]
+                 [org.clojure/java.jdbc "0.3.6"]
+                 [postgresql "9.1-901.jdbc4"]
+                 [clj-time "0.9.0"]
                  [expectations "2.0.9"]]
 
   :plugins [[lein-ring "0.9.1"]

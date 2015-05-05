@@ -9,7 +9,7 @@
   (let [req-uri (str "http://api.wunderground.com/api/"
                        api-key
                        "/conditions/q/"
-                       loc
+                       loc  ;; TODO this needs a lot of work still
                        ".xml")]
       (:body (http/get req-uri))))
 
@@ -22,7 +22,7 @@
 
 (defn get-weather-data [xml]
   (extract-entities
-   ["weather" "local_epoch" "temp_c" "precip_today_metric" "icon_url"]
+   ["weather" "temp_c" "precip_today_metric" "icon_url"]
    xml))
 
 (defn get-weather-for [location]
