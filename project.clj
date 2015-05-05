@@ -19,7 +19,11 @@
                  [hiccup "1.0.5"]
                  [environ "1.0.0"]
                  [org.clojure/clojurescript "0.0-3211" :scope "provided"]
-                 [secretary "1.2.3"]]
+                 [secretary "1.2.3"]
+                 [metosin/compojure-api "0.20.1"]
+                 [clj-http "1.1.1"]
+                 [com.github.kyleburton/clj-xpath "1.4.4"]
+                 [expectations "2.0.9"]]
 
   :plugins [[lein-ring "0.9.1"]
             [lein-environ "1.0.0"]
