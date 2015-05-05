@@ -20,11 +20,11 @@
           (for [name names]
             (xpath/$x:text (str "//" name) xml)))))
 
-(defn get-weather [xml]
+(defn get-weather-data [xml]
   (extract-entities
    ["weather" "local_epoch" "temp_c" "precip_today_metric" "icon_url"]
    xml))
 
 (defn get-weather-for [location]
   (let [xml (get-raw-weather location)]
-    (get-weather xml)))
+    (get-weather-data xml)))
