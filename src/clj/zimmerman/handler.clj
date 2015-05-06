@@ -5,7 +5,8 @@
             [hiccup.core :refer [html]]
             [hiccup.page :refer [include-js include-css]]
             [prone.middleware :refer [wrap-exceptions]]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [zimmerman.api :as api]))
 
 (def home-page
   (html
@@ -22,6 +23,7 @@
 (defroutes routes
   (GET "/" [] home-page)
   (resources "/")
+  api/zimmerman
   (not-found "Not Found"))
 
 (def app
