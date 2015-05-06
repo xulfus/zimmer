@@ -19,6 +19,7 @@
    :precipitation 0.0
    :icon "http://icons.wxug.com/i/c/k/clear.gif"})
 
+(def weather (atom (fetch-weather-data (get-location) "2015-05-07")))
 
 ;; -------------------------
 ;; Views
@@ -27,10 +28,11 @@
   [:div [:h2 "Welcome to Zimmerman"]
    [:div
     [:p "You don't need a weatherman to tell which way the wind blows"]
-    [:img {:src "http://icons.wxug.com/i/c/k/clear.gif"}]
-    [:p "The weather for Tampere: " "Clear"]
-    [:p "Expected precipitation: " "0 mm"]
-    [:p "Current temperature: " "12 °C"]
+    [:img {:src (:icon @weather)}]
+    [:p "The weather for Tampere: " (:text @weather)]
+    [:p "Expected precipitation: " (:precipitation @weather) " mm"]
+    [:p "Current temperature: " (:temperature @weather) " °C"]
+    [:p "Date: " (:date @weather)]
 
     [:a {:href "#/about"} "go to about page"]]])
 
