@@ -1,7 +1,8 @@
 (ns zimmerman.wunderground
   (:require [clj-xpath.core :as xpath]
             [clj-http.client :as http]
-            [zimmerman.util :as util]))
+            [zimmerman.util :as util]
+            [cemerick.url :as url]))
 
 (def api-key (:api-key util/config))
 
@@ -9,7 +10,7 @@
   (let [req-uri (str "http://api.wunderground.com/api/"
                        api-key
                        "/conditions/q/"
-                       loc  ;; TODO this needs a lot of work still
+                       (url/url-encode loc)  
                        ".xml")]
       (:body (http/get req-uri))))
 

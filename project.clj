@@ -26,7 +26,9 @@
                  [org.clojure/java.jdbc "0.3.6"]
                  [postgresql "9.1-901.jdbc4"]
                  [clj-time "0.9.0"]
-                 [expectations "2.0.9"]]
+                 [expectations "2.0.9"]
+                 [com.cemerick/url "0.1.1"]
+                 [cljs-ajax "0.3.11"]]
 
   :plugins [[lein-ring "0.9.1"]
             [lein-environ "1.0.0"]
