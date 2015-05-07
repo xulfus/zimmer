@@ -27,5 +27,5 @@
   (not-found "Not Found"))
 
 (def app
-  (let [handler (wrap-defaults routes site-defaults)]
+  (let [handler (wrap-defaults #'routes site-defaults)]
     (if (env :dev) (wrap-exceptions handler) handler)))

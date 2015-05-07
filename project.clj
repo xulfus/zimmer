@@ -76,6 +76,7 @@
 
                    :figwheel {:http-server-root "public"
                               :server-port 3449
+                              :nrepl-port 5666
                               :css-dirs ["resources/public/css"]
                               :ring-handler zimmerman.handler/app}
 

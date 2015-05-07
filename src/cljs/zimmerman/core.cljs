@@ -20,12 +20,14 @@
    :precipitation 0.0
    :icon "http://icons.wxug.com/i/c/k/clear.gif"})
 
+(def weather (atom {}))
+
 (defn get-weather []
   (go
     (let [resp (<! (http/get "/api/weather/London/2015-05-07"))]
-      resp)))
+      (js/console.log (pr-str resp))
+      (reset! weather (:body resp)))))
 
-(def weather (atom (fetch-weather-data (get-location) "2015-05-09")))
 
 ;(def weather (atom (get-weather)))
 
@@ -40,6 +42,7 @@
     [:p "Expected precipitation: " (:precipitation @weather) " mm"]
     [:p "Current temperature: " (:temperature @weather) " °C"]
     [:p "Date: " (:date @weather)]
+    [:button {:on-click get-weather} "Refresh"]
 
     [:a {:href "#/about"} "about Zimmerman"]]])
 
