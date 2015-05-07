@@ -28,7 +28,8 @@
                  [clj-time "0.9.0"]
                  [expectations "2.0.9"]
                  [com.cemerick/url "0.1.1"]
-                 [cljs-http "0.1.30"]]
+                 [cljs-http "0.1.30"]
+                 [com.andrewmcveigh/cljs-time "0.3.4"]]
 
   :plugins [[lein-ring "0.9.1"]
             [lein-environ "1.0.0"]

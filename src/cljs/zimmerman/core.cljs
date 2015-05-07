@@ -12,10 +12,22 @@
 
 (def weather (atom {}))
 
+;; TODO real formatting from cljs.time or goog.string.format
+(defn pad-number [num]
+ (let [n (str num)]
+   (if (< (count n) 2)
+     (str "0" n)
+     n)))
+
 (defn get-weather [ev]
- (let [loc (.. ev -target -value)]
+ (let [loc (.. ev -target -value)
+       dt (js/Date.)
+       year (.getFullYear dt)
+       month (pad-number (inc (.getMonth dt)))
+       day (pad-number (.getDate dt))
+       dts (str year "-" month "-" day)]
    (go
-     (let [resp (<! (http/get (str "/api/weather/" loc "/2015-07-07")))]
+     (let [resp (<! (http/get (str "/api/weather/" loc "/" dts)))]
        (js/console.log (pr-str resp))
        (reset! weather (assoc (:body resp) :location loc))))))
 
