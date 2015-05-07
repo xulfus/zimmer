@@ -1,13 +1,14 @@
 (ns zimmerman.core
-    (:require [reagent.core :as reagent :refer [atom]]
-              [reagent.session :as session]
-              [secretary.core :as secretary :include-macros true]
-              [goog.events :as events]
-              [goog.history.EventType :as EventType]
-              [cljsjs.react :as react]
-              [ajax.core :refer [GET]])
-    (:import goog.History))
-
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require [reagent.core :as reagent :refer [atom]]
+            [reagent.session :as session]
+            [secretary.core :as secretary :include-macros true]
+            [goog.events :as events]
+            [goog.history.EventType :as EventType]
+            [cljsjs.react :as react]
+            [cljs-http.client :as http]
+            [cljs.core.async :refer [<!]])
+  (:import goog.History))
 
 (defn get-location [] "Tampere")
 
@@ -19,7 +20,14 @@
    :precipitation 0.0
    :icon "http://icons.wxug.com/i/c/k/clear.gif"})
 
-(def weather (atom (fetch-weather-data (get-location) "2015-05-07")))
+(defn get-weather []
+  (go
+    (let [resp (<! (http/get "/api/weather/London/2015-05-07"))]
+      resp)))
+
+(def weather (atom (fetch-weather-data (get-location) "2015-05-09")))
+
+;(def weather (atom (get-weather)))
 
 ;; -------------------------
 ;; Views
@@ -27,18 +35,18 @@
 (defn home-page []
   [:div [:h2 "Welcome to Zimmerman"]
    [:div
-    [:p "You don't need a weatherman to tell which way the wind blows"]
     [:img {:src (:icon @weather)}]
-    [:p "The weather for Tampere: " (:text @weather)]
+    [:p "The weather for " (:location @weather) ": " (:text @weather)]
     [:p "Expected precipitation: " (:precipitation @weather) " mm"]
     [:p "Current temperature: " (:temperature @weather) " °C"]
     [:p "Date: " (:date @weather)]
 
-    [:a {:href "#/about"} "go to about page"]]])
+    [:a {:href "#/about"} "about Zimmerman"]]])
 
 (defn about-page []
   [:div [:h2 "About Zimmerman"]
-   [:div [:a {:href "#/"} "go to the home page"]]])
+    [:p "You don't need a weatherman to tell which way the wind blows"]
+   [:div [:a {:href "#/"} "back to Zimmerman"]]])
 
 (defn current-page []
   [:div [(session/get :current-page)]])

@@ -1,12 +1,8 @@
 (ns zimmerman.dada
   (:require [clojure.java.jdbc :as sql]
-            [zimmerman.util :as util]
-            [clj-time.format :as f]
-            [clj-time.core :as t]))
+            [zimmerman.util :as util]))
 
 (def db-uri (:db-uri util/config))
-
-(def date-formatter (f/formatter "YYYY-MM-dd"))
 
 (defn db-initialized? []
   (-> (sql/query db-uri
@@ -32,17 +28,10 @@
 (defn create-tables []
   (create-weather-table))
 
-(defn weather->sql [weather]
-  {:text (:weather weather)
-   :date (f/unparse date-formatter (t/now))
-   :temp (read-string (:temp_c weather))
-   :precipitation (read-string (:precip_today_metric weather))
-   :icon (:icon_url weather)})
-
 (defn save-weather-data [location weather]
   (sql/insert! db-uri
                :weather
-               (assoc (weather->sql weather) :location location)))
+               (assoc weather :location location)))
 
 (defn find-weather-data [date location]
   (sql/query db-uri
