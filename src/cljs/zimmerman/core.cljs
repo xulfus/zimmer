@@ -10,26 +10,14 @@
             [cljs.core.async :refer [<!]])
   (:import goog.History))
 
-(defn get-location [] "Tampere")
-
-(defn fetch-weather-data [loc date]
-  {:text "Clear"
-   :location loc
-   :temperature 10.0
-   :date date
-   :precipitation 0.0
-   :icon "http://icons.wxug.com/i/c/k/clear.gif"})
-
 (def weather (atom {}))
 
-(defn get-weather []
-  (go
-    (let [resp (<! (http/get "/api/weather/London/2015-05-07"))]
-      (js/console.log (pr-str resp))
-      (reset! weather (:body resp)))))
-
-
-;(def weather (atom (get-weather)))
+(defn get-weather [ev]
+ (let [loc (.. ev -target -value)]
+   (go
+     (let [resp (<! (http/get (str "/api/weather/" loc "/2015-07-07")))]
+       (js/console.log (pr-str resp))
+       (reset! weather (assoc (:body resp) :location loc))))))
 
 ;; -------------------------
 ;; Views
@@ -40,10 +28,11 @@
     [:img {:src (:icon @weather)}]
     [:p "The weather for " (:location @weather) ": " (:text @weather)]
     [:p "Expected precipitation: " (:precipitation @weather) " mm"]
-    [:p "Current temperature: " (:temperature @weather) " °C"]
+    [:p "Current temperature: " (:temp @weather) " °C"]
     [:p "Date: " (:date @weather)]
-    [:button {:on-click get-weather} "Refresh"]
-
+    [:p
+     [:select {:on-change #(get-weather %)} (for [loc ["Tampere Finland" "London UK" "Durham NC"]]
+                                              [:option {:key loc} loc])]]
     [:a {:href "#/about"} "about Zimmerman"]]])
 
 (defn about-page []

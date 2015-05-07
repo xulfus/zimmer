@@ -24,7 +24,7 @@
   (GET "/" [] home-page)
   (resources "/")
   api/zimmerman
-  (not-found "Not Found"))
+  (not-found "This is not the weather you are looking for"))
 
 (def app
   (let [handler (wrap-defaults #'routes site-defaults)]
