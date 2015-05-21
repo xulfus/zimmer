@@ -26,11 +26,10 @@
    :icon (:icon_url weather)})
 
 (defn extract-entities [names xml]
-  (apply hash-map
-         (interleave
-          (map keyword names)
-          (for [name names]
-            (xpath/$x:text (str "//" name) xml)))))
+  (zipmap
+   (map keyword names)
+   (for [name names]
+     (xpath/$x:text (str "//" name) xml))))
 
 (defn get-weather-data [xml]
  (-> (extract-entities
