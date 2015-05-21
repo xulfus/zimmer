@@ -20,7 +20,6 @@
 
 (defn translate-fields [weather]
   {:text (:weather weather)
-   :date (f/unparse date-formatter (t/now))
    :temp (read-string (:temp_c weather))
    :precipitation (read-string (:precip_today_metric weather))
    :icon (:icon_url weather)})
@@ -35,7 +34,8 @@
  (-> (extract-entities
       ["weather" "temp_c" "precip_today_metric" "icon_url"]
       xml)
-     (translate-fields)))
+     (translate-fields)
+     (assoc :date (f/unparse date-formatter (t/now)))))
 
 (defn get-weather-for [location]
   (let [xml (get-raw-weather location)]
